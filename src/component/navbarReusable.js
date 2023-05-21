@@ -12,7 +12,12 @@ export default function NavbarReusable() {
             className="me-auto my-2 my-lg-0"
             style={{ maxHeight: "100px" }}
             navbarScroll
-          ></Nav>
+          >
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/checkout" active>
+              Checkout
+            </Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

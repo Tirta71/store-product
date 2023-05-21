@@ -21,6 +21,13 @@
   color: white;
   font-family: monospace;
 }
+
+.button-detail {
+  background-color: black;
+  color: white;
+  padding: 0.5rem 2rem;
+  border-radius: 5px;
+}
 @media (max-width: 768px) {
   .detail-product img {
     width: 100%;

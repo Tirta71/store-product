@@ -3,6 +3,7 @@ import { NavDropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../CSS/cart.css";
 import { Link } from "react-router-dom";
+
 export default function CartDropdown({ cartItems, removeFromCart }) {
   const navigate = useNavigate();
 
@@ -18,7 +19,7 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
           <p>Cart is empty</p>
         ) : (
           <ul>
-            {cartItems &&
+            {cartItems && Array.isArray(cartItems) ? (
               cartItems.map((item, index) => (
                 <li key={index}>
                   <div className="CartProduk">
@@ -37,7 +38,12 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
                     </button>
                   </div>
                 </li>
-              ))}
+              ))
+            ) : (
+              <li>
+                <p>Invalid cart items</p>
+              </li>
+            )}
           </ul>
         )}
         {cartItems && cartItems.length > 0 && (

@@ -1,0 +1,49 @@
+.image-table img {
+  width: 50%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.container-produk {
+  box-shadow: 0 0 5px black;
+}
+
+thead {
+  font-size: 20px;
+  color: black;
+}
+
+thead th {
+  padding: 1rem;
+}
+
+.total-price {
+  display: flex;
+  justify-content: space-between;
+  margin: 5rem 0;
+}
+.total-price button {
+  background-color: black;
+  color: white;
+  border: none;
+  box-shadow: 0 0 5px black;
+  width: 200px;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+.total-price button:hover {
+  background-color: silver;
+  color: black;
+}
+.input-nama,
+.input-alamat {
+  margin-bottom: 2rem;
+}
+.input-nama input,
+.input-alamat input {
+  width: 100%;
+  padding: 1rem 0;
+  padding-left: 2rem;
+  color: black;
+  font-family: monospace;
+}

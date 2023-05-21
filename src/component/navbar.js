@@ -14,7 +14,12 @@ export default function NavScrollExample({ cartItems, removeFromCart }) {
             className="me-auto my-2 my-lg-0"
             style={{ maxHeight: "100px" }}
             navbarScroll
-          ></Nav>
+          >
+            <Nav.Link href="/" active>
+              Home
+            </Nav.Link>
+            <Nav.Link href="/checkout">Checkout</Nav.Link>
+          </Nav>
           <CartDropdown cartItems={cartItems} removeFromCart={removeFromCart} />
         </Navbar.Collapse>
       </Container>

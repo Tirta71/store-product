@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavbarReusable from "../component/navbarReusable";
 import "../CSS/DetailProduk.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DetailProduct = () => {
   const [product, setProduct] = useState(null);
@@ -24,11 +26,20 @@ const DetailProduct = () => {
   }
 
   const goBack = () => {
-    navigate(-1);
+    navigate("/");
+  };
+
+  const addToCart = () => {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    cartItems.push(product);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    navigate({ state: { cartItems } });
+    toast.success("Barang berhasil ditambahkan");
   };
 
   return (
     <div className="container">
+      <ToastContainer />
       <NavbarReusable />
       <div className="detail-product">
         <img src={product.image} alt={product.title} />
@@ -36,6 +47,9 @@ const DetailProduct = () => {
           <h2>{product.title}</h2>
           <p>{product.description}</p>
           <p>Price: ${product.price}</p>
+          <button className="button-detail" onClick={addToCart}>
+            Add to Cart
+          </button>
         </div>
       </div>
       <div className="button-back">
