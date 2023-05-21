@@ -47,3 +47,35 @@ thead th {
   color: black;
   font-family: monospace;
 }
+
+@media (max-width: 768px) {
+  tr {
+    display: flex;
+    flex-direction: column;
+  }
+  td {
+    text-align: center;
+    border: none;
+  }
+
+  th {
+    display: none;
+  }
+  .image-table img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .total-price {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .total-price button {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+}
