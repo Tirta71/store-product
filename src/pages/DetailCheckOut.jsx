@@ -25,7 +25,7 @@ export default function DetailCheckout() {
 
   const handleCreateOrder = () => {
     if (name === "" || address === "") {
-      toast.success("Mohon lengkapi Nama dan Alamat sebelum membuat pesanan.");
+      toast.error("Mohon lengkapi Nama dan Alamat sebelum membuat pesanan.");
       return;
     }
 
