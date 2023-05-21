@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState } from "react";
 import NavbarReusable from "../component/navbarReusable";
 import { Table } from "react-bootstrap";
@@ -15,6 +16,7 @@ export default function DetailCheckout() {
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
@@ -52,6 +54,22 @@ export default function DetailCheckout() {
             ],
           },
         },
+        { text: "\n" },
+        { text: "Pembayaran", style: "subheader" },
+        { text: "\n" },
+        {
+          table: {
+            widths: ["*", "*"],
+            body: [
+              ["Nama Bank", "BCA"],
+              ["Nomor Rekening", "8720649366"],
+              ["Nama Rekening", "Tirta Samara"],
+              ["Nominal", `Rp. ${totalPrice * 15000}`],
+            ],
+          },
+        },
+        { text: "\n" },
+        { text: "note : Kirim Bukti pembayaran 081284964533" },
       ],
       styles: {
         header: { fontSize: 18, bold: true, marginBottom: 10 },
@@ -61,11 +79,12 @@ export default function DetailCheckout() {
 
     pdfMake.createPdf(docDefinition).download("order.pdf");
 
+    toast.success("Bukti Pesanan telah di Buat");
     setTimeout(() => {
       sessionStorage.removeItem("cartItems");
       localStorage.removeItem("cartItems");
       navigate("/");
-    }, 5000);
+    }, 6000);
   };
 
   return (
@@ -76,9 +95,11 @@ export default function DetailCheckout() {
       <div className="container-produk">
         <Table striped>
           <thead>
-            <th>Produk Dipesan</th>
-            <th>Nama Item</th>
-            <th>Harga</th>
+            <tr>
+              <th>Produk Dipesan</th>
+              <th>Nama Item</th>
+              <th>Harga</th>
+            </tr>
           </thead>
           <tbody>
             {cartItems.map((item, index) => (
@@ -105,7 +126,6 @@ export default function DetailCheckout() {
           />
         </div>
         <div className="input-alamat">
-          <label htmlFor="address"></label>
           <input
             type="text"
             id="address"
@@ -115,6 +135,17 @@ export default function DetailCheckout() {
           />
         </div>
       </form>
+      <Table striped>
+        <tbody>
+          <tr>
+            <td>BCA TIRTA SAMARA : 8720649366</td>
+          </tr>
+          <tr>
+            <td>Nominal : ${totalPrice}</td>
+          </tr>
+        </tbody>
+      </Table>
+
       <div className="total-price">
         <h2>Total Harga: ${totalPrice}</h2>
         <button onClick={handleCreateOrder}>Buat Pesanan</button>
