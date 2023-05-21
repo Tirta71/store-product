@@ -59,3 +59,36 @@
 .nama-produk .harga a:hover {
   color: silver;
 }
+
+.atur p {
+  transform: translate(0, 30vh);
+  font-size: 100px;
+  font-family: monospace;
+  color: silver;
+}
+.container-card {
+  text-decoration: none;
+  color: black;
+  transition: 1s;
+}
+.container-card:hover {
+  transform: scale(1.05);
+}
+.card-container button {
+  background-color: black;
+  border: none;
+  color: white;
+  box-shadow: 0 0 5px black;
+  padding: 0 5px;
+}
+
+button:hover {
+  background-color: lightblue;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .atur p {
+    font-size: 50px;
+  }
+}

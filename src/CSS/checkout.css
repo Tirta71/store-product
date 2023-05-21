@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  font-family: monospace;
+}
+
+.Card-Item {
+  margin: 2rem 0;
+  box-shadow: 0 0 10px black;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: start;
+}
+
+.Card-Item img {
+  width: 100px;
+  object-fit: cover;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.Card-Item .Harga-Judul {
+  display: flex;
+  flex-direction: column;
+}
+.Card-Item .Harga-Judul .harga {
+  color: red;
+}
+
+.CheckOut {
+  display: flex;
+  justify-content: space-between;
+}
+
+.CheckOut button {
+  width: 100px;
+  box-shadow: 0 0 10px black;
+  border-radius: 10px;
+}

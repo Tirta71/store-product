@@ -1,16 +1,20 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ProductsComponent from "./component/product";
+import Home from "./pages/Home";
+import CheckOut from "./pages/CheckOut";
+import DetailProduct from "./pages/DetailProduct";
 
 function App() {
   return (
-    <div className="container mt-4">
-      <h1 className="text-center">Daftar Product</h1>
-      <div className="card-container">
-        <ProductsComponent />
-        <hr />
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/product/:id" element={<DetailProduct />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

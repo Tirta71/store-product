@@ -1,33 +1,51 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "../App.css";
+import React from "react";
+import { NavDropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "../CSS/cart.css";
+import { Link } from "react-router-dom";
+export default function CartDropdown({ cartItems, removeFromCart }) {
+  const navigate = useNavigate();
 
-const CartProduct = () => {
-  const [cart, setCart] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("https://fakestoreapi.com/carts")
-      .then((response) => {
-        console.log(response.data);
-        setCart(response.data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
-
-  if (cart.length === 0) {
-    return <div>Kosong</div>;
-  }
+  const handleCheckoutAll = () => {
+    console.log("Checkout All");
+    navigate("/checkout", { state: { cartItems } });
+  };
 
   return (
-    <div>
-      {cart.map((product, index) => (
-        <div key={index}>
-          <h1>Product ID: {product.productId}</h1>
-          <p>Quantity: {product.quantity}</p>
-        </div>
-      ))}
-    </div>
+    <NavDropdown title="Cart" id="navbarScrollingDropdown" className="Test">
+      <div className="cart-container">
+        {cartItems && cartItems.length === 0 ? (
+          <p>Cart is empty</p>
+        ) : (
+          <ul>
+            {cartItems &&
+              cartItems.map((item, index) => (
+                <li key={index}>
+                  <div className="CartProduk">
+                    <img src={item.image} alt={item.title} />
+                    <Link to={`/product/${item.id}`}>
+                      <span>
+                        <a href={`#${item.id}`}>{item.title}</a>
+                      </span>
+                      <span className="Harga">${item.price}</span>
+                    </Link>
+                    <button
+                      className="Remove"
+                      onClick={() => removeFromCart(item)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        )}
+        {cartItems && cartItems.length > 0 && (
+          <button className="CheckoutAll" onClick={handleCheckoutAll}>
+            Checkout All
+          </button>
+        )}
+      </div>
+    </NavDropdown>
   );
-};
-export default CartProduct;
+}
