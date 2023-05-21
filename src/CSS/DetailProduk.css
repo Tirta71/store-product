@@ -33,4 +33,10 @@
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
   }
+  .deskripsi-product {
+    margin: 0;
+  }
+  .button-back button {
+    margin: 0;
+  }
 }

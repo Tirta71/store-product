@@ -82,6 +82,11 @@ export default function Checkout() {
     </Document>
   );
 
+  const handlePDFDownload = () => {
+    sessionStorage.removeItem("cartItems");
+    localStorage.removeItem("cartItems");
+  };
+
   return (
     <div className="container">
       <NavbarReusable />
@@ -123,6 +128,7 @@ export default function Checkout() {
                     borderRadius: "5px",
                     marginTop: "-10px",
                   }}
+                  onClick={handlePDFDownload}
                 >
                   CheckOut
                 </button>
