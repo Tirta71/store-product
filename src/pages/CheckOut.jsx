@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NavbarReusable from "../component/navbarReusable";
 import "../CSS/checkout.css";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function Checkout() {
     const updatedCartItems = cartItems.filter((item) => item !== itemToRemove);
     setCartItems(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    toast.success("Barang berhasil di hapus dari keranjang");
   };
 
   const NextCheckout = () => {
@@ -37,6 +39,7 @@ export default function Checkout() {
 
   return (
     <div className="container">
+      <ToastContainer />
       <NavbarReusable />
       <h1>Checkout</h1>
       <ul>
