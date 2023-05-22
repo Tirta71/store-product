@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NavbarReusable from "../component/navbarReusable";
 import "../CSS/checkout.css";
+
 export default function Checkout() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -23,6 +24,13 @@ export default function Checkout() {
     });
     return totalPrice;
   };
+
+  const removeItem = (itemToRemove) => {
+    const updatedCartItems = cartItems.filter((item) => item !== itemToRemove);
+    setCartItems(updatedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  };
+
   const NextCheckout = () => {
     navigate("/detail-checkout");
   };
@@ -34,15 +42,16 @@ export default function Checkout() {
       <ul>
         {cartItems.map((item, index) => (
           <li key={index}>
-            <Link className="ProdukLink" to={`/product/${item.id}`}>
-              <div className="Card-Item">
+            <div className="Card-Item">
+              <Link className="ProdukLink" to={`/product/${item.id}`}>
                 <img src={item.image} alt={item.title} />
                 <div className="Harga-Judul">
                   <span>{item.title}</span>
                   <span className="harga">${item.price}</span>
                 </div>
-              </div>
-            </Link>
+              </Link>
+              <button onClick={() => removeItem(item)}>Remove</button>
+            </div>
           </li>
         ))}
       </ul>

@@ -74,10 +74,9 @@ function ProductsComponent({ addToCart }) {
                 </Link>
                 <div className="nama-produk">
                   <h1>{product.title}</h1>
-                  <div className="card-description">{product.description}</div>
+
                   <div className="harga">
                     <span>${product.price}</span>
-
                     <button onClick={() => handleAddToCart(product)}>
                       Add To Cart
                     </button>
