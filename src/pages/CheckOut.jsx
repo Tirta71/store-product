@@ -14,7 +14,7 @@ export default function Checkout() {
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
     } else {
-      navigate("/"); // Redirect to home if cartItems is not available
+      navigate("/");
     }
   }, [navigate]);
 
@@ -42,26 +42,32 @@ export default function Checkout() {
       <ToastContainer />
       <NavbarReusable />
       <h1>Checkout</h1>
-      <ul>
-        {cartItems.map((item, index) => (
-          <li key={index}>
-            <div className="Card-Item">
-              <Link className="ProdukLink" to={`/product/${item.id}`}>
-                <img src={item.image} alt={item.title} />
-                <div className="Harga-Judul">
-                  <span>{item.title}</span>
-                  <span className="harga">${item.price}</span>
+      {cartItems.length > 0 ? (
+        <>
+          <ul>
+            {cartItems.map((item, index) => (
+              <li key={index}>
+                <div className="Card-Item">
+                  <Link className="ProdukLink" to={`/product/${item.id}`}>
+                    <img src={item.image} alt={item.title} />
+                    <div className="Harga-Judul">
+                      <span>{item.title}</span>
+                      <span className="harga">${item.price}</span>
+                    </div>
+                  </Link>
+                  <button onClick={() => removeItem(item)}>Remove</button>
                 </div>
-              </Link>
-              <button onClick={() => removeItem(item)}>Remove</button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="CheckOut">
-        <h3>Total Harga: ${calculateTotalPrice()}</h3>
-        <button onClick={() => NextCheckout()}>Checkout</button>
-      </div>
+              </li>
+            ))}
+          </ul>
+          <div className="CheckOut">
+            <h3>Total Harga: ${calculateTotalPrice()}</h3>
+            <button onClick={() => NextCheckout()}>Checkout</button>
+          </div>
+        </>
+      ) : (
+        <p className="text-center">Tidak ada barang yang ditambahkan.</p>
+      )}
     </div>
   );
 }
