@@ -28,6 +28,24 @@
   padding: 0.5rem 2rem;
   border-radius: 5px;
 }
+.button-produk {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 14px;
+}
+.button-produk button {
+  background-color: black;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 30px;
+}
+.button-produk button:hover {
+  background-color: lightblue;
+  color: black;
+}
 @media (max-width: 768px) {
   .detail-product img {
     width: 100%;
@@ -45,5 +63,16 @@
   }
   .button-back button {
     margin: 0;
+  }
+  .button-produk {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 14px;
+  }
+  .button-detail {
+    width: 100%;
   }
 }

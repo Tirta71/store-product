@@ -15,7 +15,10 @@ export default function DetailCheckout() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
-  const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.price * item.jumlah,
+    0
+  );
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -42,15 +45,16 @@ export default function DetailCheckout() {
         { text: "\n" },
         {
           table: {
-            widths: ["*", "*", "*"],
+            widths: ["auto", "*", "*", "*"],
             body: [
-              ["No", "Nama Item", "Harga"],
+              ["No", "Nama Item", "Harga", "Jumlah"],
               ...cartItems.map((item, index) => [
                 index + 1,
                 item.title,
                 `$${item.price}`,
+                item.jumlah,
               ]),
-              ["", "Total Harga:", `$${totalPrice}`],
+              ["", "", "Total Harga", totalPrice],
             ],
           },
         },
@@ -99,6 +103,7 @@ export default function DetailCheckout() {
               <th>Produk Dipesan</th>
               <th>Nama Item</th>
               <th>Harga</th>
+              <th>Jumlah</th>
             </tr>
           </thead>
           <tbody>
@@ -109,6 +114,7 @@ export default function DetailCheckout() {
                 </td>
                 <td>{item.title}</td>
                 <td>${item.price}</td>
+                <td>{item.jumlah}</td>
               </tr>
             ))}
           </tbody>

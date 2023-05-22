@@ -1,8 +1,9 @@
 import React from "react";
 import { NavDropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "../CSS/cart.css";
 import { Link } from "react-router-dom";
+import "../CSS/cart.css";
+import { toast } from "react-toastify";
 
 export default function CartDropdown({ cartItems, removeFromCart }) {
   const navigate = useNavigate();
@@ -12,8 +13,25 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
     navigate("/checkout", { state: { cartItems } });
   };
 
+  const getTotalItems = () => {
+    let totalItems = 0;
+    cartItems.forEach((item) => {
+      totalItems += item.jumlah;
+    });
+    return totalItems;
+  };
+
+  const handleRemove = (item) => {
+    removeFromCart(item);
+    toast.success("Barang berhasil dihapus");
+  };
+
   return (
-    <NavDropdown title="Cart" id="navbarScrollingDropdown" className="Test">
+    <NavDropdown
+      title={`Cart (${getTotalItems()})`}
+      id="navbarScrollingDropdown"
+      className="Test"
+    >
       <div className="cart-container">
         {cartItems && cartItems.length === 0 ? (
           <p>Cart is empty</p>
@@ -30,9 +48,10 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
                       </span>
                       <span className="Harga">${item.price}</span>
                     </Link>
+                    <span className="text-center">Jumlah: {item.jumlah}</span>
                     <button
                       className="Remove"
-                      onClick={() => removeFromCart(item)}
+                      onClick={() => handleRemove(item)}
                     >
                       Remove
                     </button>
