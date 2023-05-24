@@ -11,14 +11,13 @@ const ProductsComponent = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [showEffect, setShowEffect] = useState(false);
 
   const [cartItems, setCartItems] = useState(() => {
     const storedCartItems = localStorage.getItem("cartItems");
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
   const [stokProduk, setStokProduk] = useState(
-    JSON.parse(localStorage.getItem("stokProduk")) || {}
+    () => parseInt(localStorage.getItem("stokProduk")) || 200
   );
 
   useEffect(() => {
@@ -29,10 +28,6 @@ const ProductsComponent = () => {
         setIsLoading(false);
       })
       .catch((error) => console.error(error));
-  }, []);
-
-  useEffect(() => {
-    setShowEffect(true);
   }, []);
 
   useEffect(() => {
@@ -59,17 +54,11 @@ const ProductsComponent = () => {
     product.title.toLowerCase().includes(searchKeyword.toLowerCase())
   );
 
-  const [addingToCart, setAddingToCart] = useState(false);
-  const [addingToCartId, setAddingToCartId] = useState(null);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   const addToCart = (item) => {
-    setAddingToCart(true);
-    setAddingToCartId(item.id);
-
     const existingItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.id === item.id
     );
@@ -83,14 +72,13 @@ const ProductsComponent = () => {
     }
 
     const updatedStokProduk = stokProduk - 1;
+    setStokProduk(updatedStokProduk);
     localStorage.setItem("stokProduk", updatedStokProduk.toString());
 
     toast.success("Barang berhasil ditambahkan ke keranjang");
 
     setTimeout(() => {
       window.location.href = "/checkout";
-      setAddingToCart(false);
-      setAddingToCartId(null);
     }, 1000);
   };
 
@@ -116,18 +104,7 @@ const ProductsComponent = () => {
 
               <div className="harga">
                 <span>${product.price}</span>
-                <button
-                  onClick={() => addToCart(product)}
-                  className="button-add"
-                >
-                  {addingToCart && addingToCartId === product.id ? (
-                    <div className="spinner-border text-light " role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  ) : (
-                    "Add To Cart"
-                  )}
-                </button>
+                <button onClick={() => addToCart(product)}>Add To Cart</button>
               </div>
             </div>
           </div>
