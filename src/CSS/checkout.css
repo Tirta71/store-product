@@ -72,6 +72,17 @@ h1 {
   color: black;
 }
 
+.transition-from-top {
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: 1s;
+}
+
+.transition-from-top.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (max-width: 768px) {
   .CheckOut {
     justify-content: center;

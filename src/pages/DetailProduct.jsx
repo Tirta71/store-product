@@ -21,6 +21,13 @@ const DetailProduct = () => {
     const storedCartItems = localStorage.getItem("cartItems");
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
+  const [showDetailProduk, setShowDetailProduk] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowDetailProduk(true);
+    }, 0);
+  }, []);
 
   useEffect(() => {
     axios

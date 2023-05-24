@@ -62,8 +62,16 @@ export default function Checkout() {
     navigate("/detail-checkout");
   };
 
+  const [showCheckout, setShowCheckout] = useState(false);
+
+  useEffect(() => {
+    setShowCheckout(true);
+  }, []);
+
   return (
-    <div className="container">
+    <div
+      className={`transition-from-top container ${showCheckout ? "show" : ""}`}
+    >
       <ToastContainer />
       <NavbarReusable />
       <h1>Checkout</h1>

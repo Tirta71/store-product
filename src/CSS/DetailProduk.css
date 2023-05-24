@@ -46,6 +46,14 @@
   background-color: lightblue;
   color: black;
 }
+
+.transisi-kanan {
+  opacity: 1;
+}
+.transisi-kanan-show {
+  opacity: 0;
+  transition: 1s;
+}
 @media (max-width: 768px) {
   .detail-product img {
     width: 100%;

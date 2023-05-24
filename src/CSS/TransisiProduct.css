@@ -1,0 +1,10 @@
+.right-transisi {
+  opacity: 0;
+  transform: translateX(500px);
+  transition: 1s;
+}
+
+.muncul {
+  opacity: 1;
+  transform: translateX(0);
+}

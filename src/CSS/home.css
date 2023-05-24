@@ -1,0 +1,10 @@
+.up-transisi {
+  opacity: 0;
+  transform: translateY(500px);
+  transition: 1.5s;
+}
+
+.show-content {
+  opacity: 1;
+  transform: translateY(0);
+}

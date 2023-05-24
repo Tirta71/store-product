@@ -11,6 +11,7 @@ const ProductsComponent = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [showEffect, setShowEffect] = useState(false);
 
   const [cartItems, setCartItems] = useState(() => {
     const storedCartItems = localStorage.getItem("cartItems");
@@ -28,6 +29,10 @@ const ProductsComponent = () => {
         setIsLoading(false);
       })
       .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    setShowEffect(true);
   }, []);
 
   useEffect(() => {

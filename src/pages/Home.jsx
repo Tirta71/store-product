@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
 import NavScrollExample from "../component/navbar";
 import ProductsComponent from "../component/product";
+import "../CSS/home.css";
 
 const Home = ({ addToCart, removeFromCart }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     setCartItems(storedCartItems);
+
+    setTimeout(() => {
+      setShowContent(true);
+    }, 500);
   }, []);
 
   return (
-    <div className="container mt-4">
+    <div
+      className={`up-transisi container mt-4 ${
+        showContent ? "show-content" : " "
+      } `}
+    >
       <NavScrollExample cartItems={cartItems} removeFromCart={removeFromCart} />
       <h1 className="text-center mt-5">Daftar Produk</h1>
       <div className="card-container">
