@@ -39,10 +39,6 @@ const DetailProduct = () => {
     if (jumlahProduk < stokProduk) {
       const newJumlahProduk = jumlahProduk + 1;
       setJumlahProduk(newJumlahProduk);
-      setStokProduk((prevStokProduk) => prevStokProduk - 1);
-
-      // Update stokProduk in localStorage
-      localStorage.setItem("stokProduk", (stokProduk - 1).toString());
     }
   };
 
@@ -50,10 +46,6 @@ const DetailProduct = () => {
     if (jumlahProduk > 1) {
       const newJumlahProduk = jumlahProduk - 1;
       setJumlahProduk(newJumlahProduk);
-      setStokProduk((prevStokProduk) => prevStokProduk + 1);
-
-      // Update stokProduk in localStorage
-      localStorage.setItem("stokProduk", (stokProduk + 1).toString());
     }
   };
 
@@ -63,22 +55,33 @@ const DetailProduct = () => {
       return;
     }
 
+    const addedQuantity = jumlahProduk > stokProduk ? stokProduk : jumlahProduk;
+
     const existingItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.id === product.id
     );
-    const addedQuantity = jumlahProduk > stokProduk ? stokProduk : jumlahProduk;
 
     if (existingItemIndex !== -1) {
-      cartItems[existingItemIndex].jumlah += addedQuantity;
-      setCartItems([...cartItems]);
+      const updatedCartItems = cartItems.map((cartItem) => {
+        if (cartItem.id === product.id) {
+          return { ...cartItem, jumlah: cartItem.jumlah + addedQuantity };
+        }
+        return cartItem;
+      });
+      setCartItems(updatedCartItems);
     } else {
       const newCartItem = { ...product, jumlah: addedQuantity };
-      setCartItems([...cartItems, newCartItem]);
+      const updatedCartItems = [...cartItems, newCartItem];
+      setCartItems(updatedCartItems);
     }
 
     setJumlahProduk(1);
+    setStokProduk((prevStokProduk) => prevStokProduk - addedQuantity); // Update stokProduk
 
     toast.success("Barang berhasil ditambahkan ke keranjang");
+    setTimeout(() => {
+      navigate("/checkout");
+    }, 1000);
   };
 
   useEffect(() => {

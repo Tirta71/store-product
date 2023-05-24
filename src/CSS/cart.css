@@ -2,9 +2,10 @@
 
 .cart-container {
   width: 350px;
-  overflow: hidden;
+  overflow: scroll;
   display: flex;
   flex-wrap: wrap;
+  height: 250px;
 }
 
 .CartProduk img {
@@ -70,10 +71,14 @@
   border: none;
   width: 100%;
   padding: 1rem 0;
-
+  transition: 0.5s;
   cursor: pointer;
 }
-
+.CheckoutAll:hover {
+  background-color: silver;
+  box-shadow: 0 0 2px black;
+  color: black;
+}
 ul li {
   list-style: none;
 }

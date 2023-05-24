@@ -88,6 +88,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     padding: 2rem;
+    width: 90%;
   }
   .Card-Item .ProdukLink {
     flex-direction: column;

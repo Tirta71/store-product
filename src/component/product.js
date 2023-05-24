@@ -16,6 +16,9 @@ const ProductsComponent = () => {
     const storedCartItems = localStorage.getItem("cartItems");
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
+  const [stokProduk, setStokProduk] = useState(
+    JSON.parse(localStorage.getItem("stokProduk")) || {}
+  );
 
   useEffect(() => {
     axios
@@ -59,6 +62,7 @@ const ProductsComponent = () => {
     const existingItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.id === item.id
     );
+
     if (existingItemIndex !== -1) {
       cartItems[existingItemIndex].jumlah += 1;
       setCartItems([...cartItems]);
@@ -66,7 +70,15 @@ const ProductsComponent = () => {
       const newCartItem = { ...item, jumlah: 1 };
       setCartItems([...cartItems, newCartItem]);
     }
+
+    const updatedStokProduk = stokProduk - 1;
+    localStorage.setItem("stokProduk", updatedStokProduk.toString());
+
     toast.success("Barang berhasil ditambahkan ke keranjang");
+
+    setTimeout(() => {
+      window.location.href = "/checkout";
+    }, 1000);
   };
 
   return (
