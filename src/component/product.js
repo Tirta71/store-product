@@ -12,6 +12,7 @@ const ProductsComponent = ({ removeFromCart }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isSticky, setIsSticky] = useState(false);
 
   const [cartItems, setCartItems] = useState(() => {
     const storedCartItems = localStorage.getItem("cartItems");
@@ -43,6 +44,21 @@ const ProductsComponent = ({ removeFromCart }) => {
     setSelectedCategory(category);
   }
 
+  const handleScroll = () => {
+    const searchCartContainer = document.querySelector(".search-cart");
+    if (searchCartContainer) {
+      const isSticky = window.scrollY > searchCartContainer.offsetTop;
+      setIsSticky(isSticky);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   let filteredProducts = products;
 
   if (selectedCategory) {
@@ -54,10 +70,6 @@ const ProductsComponent = ({ removeFromCart }) => {
   filteredProducts = filteredProducts.filter((product) =>
     product.title.toLowerCase().includes(searchKeyword.toLowerCase())
   );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   const addToCart = (item) => {
     const existingItemIndex = cartItems.findIndex(
@@ -79,16 +91,15 @@ const ProductsComponent = ({ removeFromCart }) => {
     toast.success("Barang berhasil ditambahkan ke keranjang");
 
     setTimeout(() => {
-      window.location.href = "/checkout";
+      <>Loading ....</>;
     }, 1000);
   };
 
   return (
     <div className="atur">
-      <ToastContainer />
-
       <CategoryProduct onCategorySelect={handleCategorySelect} />
-      <div className="search-cart">
+      <div className={`search-cart container ${isSticky ? "sticky" : ""}`}>
+        <ToastContainer />
         <input
           type="text"
           value={searchKeyword}

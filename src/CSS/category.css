@@ -13,24 +13,42 @@
 }
 
 .search-input {
-  margin-left: 2rem;
+  margin-left: 5rem;
 }
 
 .search-cart {
   margin-left: 1.5rem;
   display: flex;
   justify-content: center;
-  width: 100%;
+  margin: auto;
   margin-bottom: 2rem;
   z-index: 999;
   position: sticky;
-  top: 0;
+  top: 20px;
 
+  padding-top: 1rem;
+  padding-left: 3.6rem;
+  transition: 0.5s;
   z-index: 999;
+}
+.search-cart.sticky {
+  box-shadow: 0 0 5px black;
+  background-color: white;
+  transform: scale(1.05);
+  padding-top: 1.5rem;
 }
 
 @media (max-width: 768px) {
   .jarak {
     display: none;
+  }
+  .search-cart {
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    background-color: white;
+    box-shadow: 0 0 5px black;
   }
 }
