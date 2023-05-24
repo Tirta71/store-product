@@ -1,0 +1,26 @@
+.navbar-colappse .logout {
+  width: max-content;
+  font-size: 15px;
+  font-family: monospace;
+  background-color: black;
+  color: white;
+  box-shadow: 0 0 2px black;
+  width: 150px;
+}
+.navbar-colappse .logout:hover {
+  color: black;
+  background-color: white;
+}
+
+button:hover {
+  background-color: lightblue;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .navbar-colappse .logout {
+    margin-top: 2rem;
+    transform: translate(115%);
+    margin-bottom: 2rem;
+  }
+}

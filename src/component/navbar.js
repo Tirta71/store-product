@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import CartDropdown from "./cartproduct";
-import "../App.css";
+import "../CSS/navbar.css";
 
 import { toast } from "react-toastify";
 
@@ -44,7 +44,9 @@ export default function NavScrollExample({
             removeFromCart={removeFromCart}
             addToCart={addToCart}
           />
-          <Button onClick={handleLogout}>Logout</Button>
+          <Button className="logout" onClick={handleLogout}>
+            Logout
+          </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>
