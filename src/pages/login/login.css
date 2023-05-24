@@ -31,7 +31,8 @@ input {
   font-size: 16px;
 }
 
-.btn {
+.btn,
+.login-container .register-button {
   width: 100%;
   padding: 12px;
   background-color: black;
@@ -56,4 +57,8 @@ input {
 .login-container button:hover {
   color: black;
   box-shadow: 0 0 10px black;
+}
+.login-container .register-button:hover {
+  color: black;
+  background-color: #fff;
 }
