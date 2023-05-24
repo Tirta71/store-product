@@ -21,13 +21,6 @@ const DetailProduct = () => {
     const storedCartItems = localStorage.getItem("cartItems");
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
-  const [showDetailProduk, setShowDetailProduk] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowDetailProduk(true);
-    }, 0);
-  }, []);
 
   useEffect(() => {
     axios
@@ -56,7 +49,10 @@ const DetailProduct = () => {
     }
   };
 
+  const [addingToCart, setAddingToCart] = useState(false);
+
   const handleAddToCart = () => {
+    setAddingToCart(true);
     if (stokProduk === 0) {
       toast.error("Barang sudah habis");
       return;
@@ -88,7 +84,8 @@ const DetailProduct = () => {
     toast.success("Barang berhasil ditambahkan ke keranjang");
     setTimeout(() => {
       navigate("/checkout");
-    }, 1000);
+      setAddingToCart(false);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -122,8 +119,18 @@ const DetailProduct = () => {
               <button onClick={handleIncrement}>+</button>
             </div>
           )}
-          <button className="button-detail" onClick={handleAddToCart}>
-            Add to Cart
+          <button
+            className="button-detail"
+            onClick={handleAddToCart}
+            disabled={addingToCart}
+          >
+            {addingToCart ? (
+              <div className="spinner-border text-light" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            ) : (
+              "Add to Cart"
+            )}
           </button>
         </div>
       </div>

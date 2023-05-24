@@ -17,15 +17,14 @@ export default function NavScrollExample({
 
     setTimeout(() => {
       Object.keys(localStorage).forEach((key) => {
-        if (key !== "users") {
+        if (key !== "users" && key !== "stokProduk") {
           localStorage.removeItem(key);
         }
       });
-
+      window.location.href = "/";
       setLoggingOut(false);
-      toast.success("Berhasil Logout");
       setTimeout(function () {
-        window.location.href = "/login";
+        toast.success("Berhasil Logout");
       }, 2000);
     }, 2000);
   };

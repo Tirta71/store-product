@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NavbarReusable from "../component/navbarReusable";
 import "../CSS/checkout.css";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 export default function Checkout() {
   const navigate = useNavigate();
