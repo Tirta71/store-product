@@ -16,7 +16,7 @@ export default function Checkout() {
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
     } else {
-      navigate("/"); // Redirect to home if cartItems is not available
+      navigate("/");
     }
   }, [navigate]);
 
@@ -39,8 +39,6 @@ export default function Checkout() {
 
     setStokProduk(stokProduk - 1);
     localStorage.setItem("stokProduk", JSON.stringify(stokProduk - 1));
-
-    toast.success("Barang berhasil ditambahkan");
   };
 
   const removeFromCart = (index) => {
@@ -58,8 +56,6 @@ export default function Checkout() {
 
     setStokProduk(stokProduk + 1);
     localStorage.setItem("stokProduk", JSON.stringify(stokProduk + 1));
-
-    toast.success("Barang berhasil dihapus");
   };
 
   const NextCheckout = () => {
@@ -97,7 +93,7 @@ export default function Checkout() {
       )}
       {cartItems.length > 0 && (
         <div className="CheckOut">
-          <h3>Total Harga: ${calculateTotalPrice()}</h3>
+          <h3>Total Harga: ${Math.round(calculateTotalPrice())}</h3>
           <button onClick={NextCheckout}>Checkout</button>
         </div>
       )}

@@ -1,0 +1,16 @@
+.jarak {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem;
+  flex-wrap: wrap;
+}
+.jarak button {
+  width: 200px;
+  padding: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .jarak {
+    display: none;
+  }
+}

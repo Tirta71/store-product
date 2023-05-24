@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavDropdown } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../CSS/cart.css";
 import { toast } from "react-toastify";
 
-export default function CartDropdown({ cartItems, removeFromCart }) {
+const CartDropdown = () => {
   const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState(
+    JSON.parse(localStorage.getItem("cartItems")) || []
+  );
+
+  const [stokProduk, setStokProduk] = useState(
+    JSON.parse(localStorage.getItem("stokProduk")) || {}
+  );
 
   const handleCheckoutAll = () => {
     console.log("Checkout All");
@@ -15,16 +21,64 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
 
   const getTotalItems = () => {
     let totalItems = 0;
-    cartItems.forEach((item) => {
-      totalItems += item.jumlah;
-    });
+    if (cartItems && Array.isArray(cartItems)) {
+      cartItems.forEach((item) => {
+        totalItems += item.jumlah;
+      });
+    }
     return totalItems;
   };
 
-  const handleRemove = (item) => {
-    removeFromCart(item);
-    toast.success("Barang berhasil dihapus");
+  const handleAddToCart = (index) => {
+    const updatedCartItems = [...cartItems];
+    const addedItem = updatedCartItems[index];
+
+    addedItem.jumlah += 1;
+
+    setCartItems(updatedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+    setStokProduk(stokProduk - 1);
+    localStorage.setItem("stokProduk", JSON.stringify(stokProduk - 1));
   };
+
+  const handleRemove = (index) => {
+    const updatedCartItems = [...cartItems];
+    const removedItem = updatedCartItems[index];
+
+    if (removedItem.jumlah > 1) {
+      removedItem.jumlah -= 1;
+    } else {
+      updatedCartItems.splice(index, 1);
+    }
+
+    setCartItems(updatedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+    setStokProduk(stokProduk + 1);
+    localStorage.setItem("stokProduk", JSON.stringify(stokProduk + 1));
+  };
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.storageArea === localStorage) {
+        const updatedCartItems =
+          JSON.parse(event.newValue) ||
+          JSON.parse(localStorage.getItem("cartItems"));
+        const updatedStokProduk =
+          JSON.parse(event.newValue) ||
+          JSON.parse(localStorage.getItem("stokProduk"));
+        setCartItems(updatedCartItems);
+        setStokProduk(updatedStokProduk);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   return (
     <NavDropdown
@@ -32,6 +86,8 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
       id="navbarScrollingDropdown"
       className="Test"
     >
+      {cartItems && cartItems.length > 0 && <h1>Keranjang Belanja</h1>}
+
       <div className="cart-container">
         {cartItems && cartItems.length === 0 ? (
           <p>Cart is empty</p>
@@ -43,18 +99,28 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
                   <div className="CartProduk">
                     <img src={item.image} alt={item.title} />
                     <Link to={`/product/${item.id}`}>
-                      <span>
+                      <span className="Harga-Link">
                         <a href={`#${item.id}`}>{item.title}</a>
+                        <span className="Harga">
+                          ${Math.round(item.price * item.jumlah)}
+                        </span>
                       </span>
-                      <span className="Harga">${item.price}</span>
                     </Link>
-                    <span className="text-center">Jumlah: {item.jumlah}</span>
-                    <button
-                      className="Remove"
-                      onClick={() => handleRemove(item)}
-                    >
-                      Remove
-                    </button>
+                    <div className="buttonDeck">
+                      <button
+                        className="Remove"
+                        onClick={() => handleRemove(index)}
+                      >
+                        -
+                      </button>
+                      <span className="text-center">{item.jumlah}</span>
+                      <button
+                        className="Add"
+                        onClick={() => handleAddToCart(index)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </li>
               ))
@@ -73,4 +139,6 @@ export default function CartDropdown({ cartItems, removeFromCart }) {
       </div>
     </NavDropdown>
   );
-}
+};
+
+export default CartDropdown;

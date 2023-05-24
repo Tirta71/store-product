@@ -3,54 +3,71 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CategoryProduct from "./category";
+import "../CSS/category.css";
 
-function ProductsComponent({ addToCart }) {
+const ProductsComponent = () => {
   const [products, setProducts] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [cartItems, setCartItems] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [cartItems, setCartItems] = useState(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    return storedCartItems ? JSON.parse(storedCartItems) : [];
+  });
 
   useEffect(() => {
     axios
       .get("https://fakestoreapi.com/products")
       .then((response) => {
-        console.log(response.data);
         setProducts(response.data);
+        setIsLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
-    const storedCartItems = JSON.parse(sessionStorage.getItem("cartItems"));
-    if (storedCartItems) {
-      setCartItems(storedCartItems);
-    }
-  }, []);
-
-  useEffect(() => {
-    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const handleSearchChange = (event) => {
     setSearchKeyword(event.target.value);
   };
 
-  const handleAddToCart = (product) => {
-    toast.success("Barang Berhasil Ditambahkan");
-    addToCart(product);
-    const updatedCartItems = [...cartItems, product];
-    setCartItems(updatedCartItems);
-    sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-  };
-
-  if (products.length === 0) {
-    return <div>Loading...</div>;
+  function handleCategorySelect(category) {
+    setSelectedCategory(category);
   }
 
-  const filteredProducts = products.filter((product) =>
+  let filteredProducts = products;
+
+  if (selectedCategory) {
+    filteredProducts = products.filter(
+      (product) => product.category === selectedCategory
+    );
+  }
+
+  filteredProducts = filteredProducts.filter((product) =>
     product.title.toLowerCase().includes(searchKeyword.toLowerCase())
   );
 
-  let isProductFound = false;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const addToCart = (item) => {
+    const existingItemIndex = cartItems.findIndex(
+      (cartItem) => cartItem.id === item.id
+    );
+    if (existingItemIndex !== -1) {
+      cartItems[existingItemIndex].jumlah += 1;
+      setCartItems([...cartItems]);
+    } else {
+      const newCartItem = { ...item, jumlah: 1 };
+      setCartItems([...cartItems, newCartItem]);
+    }
+    toast.success("Barang berhasil ditambahkan ke keranjang");
+  };
 
   return (
     <div className="atur">
@@ -62,38 +79,29 @@ function ProductsComponent({ addToCart }) {
         placeholder="Cari produk..."
         className="form-control mb-4"
       />
-
+      <CategoryProduct onCategorySelect={handleCategorySelect} />
       <div className="card-container">
-        {filteredProducts.map((product, index) => {
-          if (searchKeyword !== product.title) {
-            isProductFound = true;
-            return (
-              <div className="container-card" key={index}>
-                <Link className="link-produk" to={`/product/${product.id}`}>
-                  <img src={product.image} alt="" />
-                </Link>
-                <div className="nama-produk">
-                  <h1>{product.title}</h1>
+        {filteredProducts.map((product, index) => (
+          <div className="container-card" key={index}>
+            <Link className="link-produk" to={`/product/${product.id}`}>
+              <img src={product.image} alt="" />
+            </Link>
+            <div className="nama-produk">
+              <h1>{product.title}</h1>
 
-                  <div className="harga">
-                    <span>${product.price}</span>
-                    <button onClick={() => handleAddToCart(product)}>
-                      Add To Cart
-                    </button>
-                  </div>
-                </div>
+              <div className="harga">
+                <span>${product.price}</span>
+                <button onClick={() => addToCart(product)}>Add To Cart</button>
               </div>
-            );
-          }
-          return null;
-        })}
+            </div>
+          </div>
+        ))}
       </div>
-
-      {!isProductFound && (
+      {filteredProducts.length === 0 && (
         <p className="text-center produk-tidak-ada">Tidak ada produk</p>
       )}
     </div>
   );
-}
+};
 
 export default ProductsComponent;

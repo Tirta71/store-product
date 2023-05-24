@@ -11,11 +11,16 @@
   border: 1px solid black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 2);
 }
-
+.link-produk {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
 .container-card img {
   width: 100%;
   height: 200px;
-  object-fit: cover;
+
+  object-fit: contain;
 }
 
 .nama-produk h1 {
@@ -82,6 +87,20 @@
   padding: 2px 10px;
 }
 
+.navbar-colappse button {
+  width: max-content;
+  font-size: 15px;
+  font-family: monospace;
+  background-color: black;
+  color: white;
+  box-shadow: 0 0 2px black;
+  width: 150px;
+}
+.navbar-colappse button:hover {
+  color: black;
+  background-color: white;
+}
+
 button:hover {
   background-color: lightblue;
   color: black;
@@ -90,5 +109,25 @@ button:hover {
 @media (max-width: 768px) {
   .atur p {
     font-size: 50px;
+  }
+  .container-card {
+    gap: 2rem;
+  }
+  .harga {
+    flex-direction: column;
+
+    text-align: center;
+  }
+  .harga span {
+    font-size: 20px;
+  }
+  .harga button {
+    transform: translate(0, 20px);
+    padding: 1rem 0;
+  }
+  .navbar-colappse button {
+    margin-top: 2rem;
+    transform: translate(115%);
+    margin-bottom: 2rem;
   }
 }

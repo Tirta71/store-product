@@ -20,6 +20,8 @@ h1 {
   display: flex;
   align-items: center;
   text-align: start;
+  color: black;
+  text-decoration: none;
 }
 .Card-Item button {
   background-color: black;
