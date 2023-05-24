@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import NavScrollExample from "../component/navbar";
+
 import ProductsComponent from "../component/product";
 import "../CSS/home.css";
+import NavbarReusable from "../component/navbarReusable";
 
 const Home = ({ addToCart, removeFromCart }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -22,7 +23,7 @@ const Home = ({ addToCart, removeFromCart }) => {
         showContent ? "show-content" : " "
       } `}
     >
-      <NavScrollExample cartItems={cartItems} removeFromCart={removeFromCart} />
+      <NavbarReusable />
       <h1 className="text-center mt-5">Daftar Produk</h1>
       <div className="card-container">
         <ProductsComponent addToCart={addToCart} />

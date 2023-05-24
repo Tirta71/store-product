@@ -5,8 +5,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CategoryProduct from "./category";
 import "../CSS/category.css";
+import CartDropdown from "./cartproduct";
 
-const ProductsComponent = () => {
+const ProductsComponent = ({ removeFromCart }) => {
   const [products, setProducts] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -85,14 +86,18 @@ const ProductsComponent = () => {
   return (
     <div className="atur">
       <ToastContainer />
-      <input
-        type="text"
-        value={searchKeyword}
-        onChange={handleSearchChange}
-        placeholder="Cari produk..."
-        className="form-control mb-4"
-      />
+
       <CategoryProduct onCategorySelect={handleCategorySelect} />
+      <div className="search-cart">
+        <input
+          type="text"
+          value={searchKeyword}
+          onChange={handleSearchChange}
+          placeholder="Cari produk..."
+          className="form-control mb-4"
+        />
+        <CartDropdown addToCart={addToCart} removeFromCart={removeFromCart} />
+      </div>
       <div className="card-container">
         {filteredProducts.map((product, index) => (
           <div className="container-card" key={index}>

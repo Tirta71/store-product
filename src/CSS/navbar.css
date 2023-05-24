@@ -1,29 +1,13 @@
-.navbar-colappse .logout {
-  width: max-content;
-  font-size: 15px;
-  font-family: monospace;
+#navbarScroll .logout-button {
+  width: 100px;
+  height: auto;
+  font-size: 10px;
   background-color: black;
-  color: white;
-  box-shadow: 0 0 2px black;
-  width: 150px;
+  box-shadow: none;
 }
-.navbar-colappse .logout:hover {
-  color: black;
+
+#navbarScroll .logout-button:hover {
   background-color: white;
-}
-
-@media (max-width: 768px) {
-  .navbar-colappse .logout {
-    margin-top: 2rem;
-    transform: translate(100%);
-    margin-bottom: 2rem;
-  }
-}
-
-.loading-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 20px;
+  box-shadow: 0 0 10px black;
+  color: black;
 }

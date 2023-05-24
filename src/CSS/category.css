@@ -12,6 +12,23 @@
   width: 120px;
 }
 
+.search-input {
+  margin-left: 2rem;
+}
+
+.search-cart {
+  margin-left: 1.5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  z-index: 999;
+  position: sticky;
+  top: 0;
+
+  z-index: 999;
+}
+
 @media (max-width: 768px) {
   .jarak {
     display: none;

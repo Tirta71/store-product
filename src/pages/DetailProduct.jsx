@@ -6,6 +6,7 @@ import NavScrollExample from "../component/navbar";
 import "../CSS/DetailProduk.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NavbarReusable from "../component/navbarReusable";
 
 const DetailProduct = () => {
   const [product, setProduct] = useState(null);
@@ -102,7 +103,7 @@ const DetailProduct = () => {
 
   return (
     <div className="container">
-      <NavScrollExample />
+      <NavbarReusable />
       <div className="detail-product">
         <img src={product.image} alt={product.title} />
         <div className="deskripsi-product">
