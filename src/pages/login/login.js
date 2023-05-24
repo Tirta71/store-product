@@ -1,28 +1,40 @@
 import React, { useState } from "react";
-
-import "./login.css";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Spinner } from "react-bootstrap";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
+    setLoading(true);
+
     const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
     const user = existingUsers.find(
       (user) => user.username === username && user.password === password
     );
 
-    if (user) {
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("username", username);
-      window.location.href = "/";
-      toast.success("Berhasil Login");
-    } else {
-      setError("Invalid username or password");
-    }
+    setTimeout(() => {
+      if (user) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", username);
+        setUsername("");
+        setPassword("");
+        setLoading(false);
+        toast.success("Berhasil Login");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      } else {
+        setError("Invalid username or password");
+        setLoading(false);
+      }
+    }, 2000);
   };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleLogin();
@@ -51,8 +63,8 @@ const Login = () => {
             onKeyPress={handleKeyPress}
           />
         </div>
-        <button className="btn" onClick={handleLogin}>
-          Login
+        <button className="btn" onClick={handleLogin} disabled={loading}>
+          {loading ? <Spinner animation="border" role="status" /> : "Login"}
         </button>
         {error && <p className="error-message">{error}</p>}
         <span>

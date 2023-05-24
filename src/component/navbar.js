@@ -1,5 +1,5 @@
-import React from "react";
-import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Navbar, Container, Nav, Button, Spinner } from "react-bootstrap";
 import CartDropdown from "./cartproduct";
 import "../CSS/navbar.css";
 
@@ -10,17 +10,24 @@ export default function NavScrollExample({
   removeFromCart,
   addToCart,
 }) {
+  const [loggingOut, setLoggingOut] = useState(false);
+
   const handleLogout = () => {
-    Object.keys(localStorage).forEach((key) => {
-      if (key !== "users") {
-        localStorage.removeItem(key);
-      }
-    });
+    setLoggingOut(true);
 
-    // Setelah menghapus data dari localStorage, arahkan pengguna ke halaman login
-    window.location.href = "/";
+    setTimeout(() => {
+      Object.keys(localStorage).forEach((key) => {
+        if (key !== "users") {
+          localStorage.removeItem(key);
+        }
+      });
 
-    toast.success("Berhasil Logout");
+      setLoggingOut(false);
+      toast.success("Berhasil Logout");
+      setTimeout(function () {
+        window.location.href = "/login";
+      }, 2000);
+    }, 2000);
   };
 
   return (
@@ -44,9 +51,16 @@ export default function NavScrollExample({
             removeFromCart={removeFromCart}
             addToCart={addToCart}
           />
-          <Button className="logout" onClick={handleLogout}>
-            Logout
-          </Button>
+          {loggingOut ? (
+            <div className="loading-container">
+              <Spinner animation="border" variant="primary" />
+              <p>Logging out...</p>
+            </div>
+          ) : (
+            <Button className="logout" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
