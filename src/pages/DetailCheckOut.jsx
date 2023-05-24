@@ -88,7 +88,7 @@ export default function DetailCheckout() {
       sessionStorage.removeItem("cartItems");
       localStorage.removeItem("cartItems");
       navigate("/");
-    }, 6000);
+    }, 3000);
   };
 
   return (
