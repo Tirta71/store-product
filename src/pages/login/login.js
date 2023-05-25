@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "react-bootstrap";
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -12,27 +13,33 @@ const Login = () => {
   const handleLogin = () => {
     setLoading(true);
 
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const user = existingUsers.find(
-      (user) => user.username === username && user.password === password
-    );
+    axios
+      .get("https://646f8bf209ff19b120877364.mockapi.io/login/login")
+      .then((response) => {
+        const users = response.data;
+        const user = users.find(
+          (user) => user.username === username && user.password === password
+        );
 
-    setTimeout(() => {
-      if (user) {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", username);
-        setUsername("");
-        setPassword("");
+        if (user) {
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("username", username);
+          setUsername("");
+          setPassword("");
+          setLoading(false);
+          toast.success("Berhasil Login");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
+        } else {
+          setError("Invalid username or password");
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
         setLoading(false);
-        toast.success("Berhasil Login");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
-      } else {
-        setError("Invalid username or password");
-        setLoading(false);
-      }
-    }, 2000);
+      });
   };
 
   const handleKeyPress = (e) => {

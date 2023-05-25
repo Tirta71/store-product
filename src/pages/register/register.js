@@ -3,57 +3,68 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import "../login/login.css";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
+  const [capsLockActive, setCapsLockActive] = useState(false);
 
   const handleRegister = () => {
     if (password !== confirmPassword) {
-      setError("Password tidak cocok");
+      toast.error("Password Tidak Cocok");
       return;
     }
 
     if (!username || !password || !confirmPassword) {
-      toast.error("input tidak boleh kosong");
+      toast.error("Input tidak boleh kosong");
       return;
     }
 
     if (!/^[A-Z][A-Za-z0-9]{7,}$/.test(password)) {
-      toast.error("Password Harus Kapital dan 8 Huruf");
+      toast.error(
+        "Password harus dimulai dengan huruf kapital dan memiliki minimal 8 karakter"
+      );
       return;
     }
 
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const userExists = existingUsers.find((user) => user.username === username);
+    const newUser = { username, password, cartItems: [] };
 
-    if (userExists) {
-      setError("Username already exists");
-    } else {
-      setIsLoading(true);
-
-      setTimeout(() => {
-        const newUser = { username, password, cartItems: [] };
-        existingUsers.push(newUser);
-        localStorage.setItem("users", JSON.stringify(existingUsers));
+    axios
+      .post("https://646f8bf209ff19b120877364.mockapi.io/login/login", newUser)
+      .then((response) => {
         navigate("/login");
         setIsLoading(false);
 
         setTimeout(function () {
           toast.success("Register Berhasil");
         }, 1000);
-      }, 2000);
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
   };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleRegister();
     }
+  };
+
+  const handlePasswordChange = (e) => {
+    const inputPassword = e.target.value;
+    const isCapsLockActive =
+      inputPassword &&
+      inputPassword.toLowerCase() !== inputPassword &&
+      inputPassword.toUpperCase() === inputPassword;
+
+    setCapsLockActive(isCapsLockActive);
+    setPassword(inputPassword);
   };
 
   return (
@@ -74,9 +85,12 @@ const Register = () => {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
           />
         </div>
+        {capsLockActive && (
+          <p className="caps-lock-warning">Caps Lock active</p>
+        )}
         <div className="control">
           <input
             type="password"
@@ -106,7 +120,7 @@ const Register = () => {
             "Register"
           )}
         </button>
-        {error && <p className="error-message">{error}</p>}
+
         <span>
           Sudah Punya Akun? <a href="/login">Login</a>
         </span>

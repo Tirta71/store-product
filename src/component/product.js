@@ -11,7 +11,7 @@ const ProductsComponent = ({ removeFromCart }) => {
   const [products, setProducts] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+
   const [isSticky, setIsSticky] = useState(false);
 
   const [cartItems, setCartItems] = useState(() => {
@@ -27,7 +27,6 @@ const ProductsComponent = ({ removeFromCart }) => {
       .get("https://fakestoreapi.com/products")
       .then((response) => {
         setProducts(response.data);
-        setIsLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -91,7 +90,7 @@ const ProductsComponent = ({ removeFromCart }) => {
     toast.success("Barang berhasil ditambahkan ke keranjang");
 
     setTimeout(() => {
-      <>Loading ....</>;
+      window.location.reload();
     }, 1000);
   };
 
@@ -107,7 +106,9 @@ const ProductsComponent = ({ removeFromCart }) => {
           placeholder="Cari produk..."
           className="form-control mb-4"
         />
-        <CartDropdown addToCart={addToCart} removeFromCart={removeFromCart} />
+        <div className="cart-input">
+          <CartDropdown addToCart={addToCart} removeFromCart={removeFromCart} />
+        </div>
       </div>
       <div className="card-container">
         {filteredProducts.map((product, index) => (

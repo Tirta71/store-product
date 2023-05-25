@@ -17,10 +17,11 @@ export default function NavbarReusable() {
           localStorage.removeItem(key);
         }
       });
-      window.location.href = "/";
+
       setLoggingOut(false);
-      setTimeout(function () {
-        toast.success("Berhasil Logout");
+      toast.success("Berhasil Logout");
+      setTimeout(() => {
+        window.location.href = "/";
       }, 2000);
     }, 2000);
   };
@@ -28,7 +29,7 @@ export default function NavbarReusable() {
   const showLogoutButton = location.pathname === "/";
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" className="navbar-sendiri">
       <Container fluid>
         <Navbar.Brand href="/">Tirta Store</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />

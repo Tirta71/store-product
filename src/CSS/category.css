@@ -24,7 +24,7 @@
   margin-bottom: 2rem;
   z-index: 999;
   position: sticky;
-  top: 20px;
+  top: 0;
 
   padding-top: 1rem;
   padding-left: 3.6rem;
@@ -46,9 +46,12 @@
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     z-index: 9999;
-    background-color: white;
-    box-shadow: 0 0 5px black;
+    padding: 0;
+  }
+  .search-cart .cart-input {
+    padding-left: 12px;
+    width: 95%;
   }
 }

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import NavScrollExample from "../component/navbar";
 
 import "../CSS/DetailProduk.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NavbarReusable from "../component/navbarReusable";
+
+import NavScrollExample from "../component/navbar";
 
 const DetailProduct = () => {
   const [product, setProduct] = useState(null);
@@ -84,9 +84,9 @@ const DetailProduct = () => {
 
     toast.success("Barang berhasil ditambahkan ke keranjang");
     setTimeout(() => {
-      navigate("/checkout");
+      window.location.reload();
       setAddingToCart(false);
-    }, 2000);
+    }, 1500);
   };
 
   useEffect(() => {
@@ -103,7 +103,8 @@ const DetailProduct = () => {
 
   return (
     <div className="container">
-      <NavbarReusable />
+      <NavScrollExample />
+
       <div className="detail-product">
         <img src={product.image} alt={product.title} />
         <div className="deskripsi-product">

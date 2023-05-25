@@ -11,3 +11,14 @@
   box-shadow: 0 0 10px black;
   color: black;
 }
+
+.cart-dropdown-wrapper {
+  margin-right: 5rem;
+}
+
+@media (max-width: 768px) {
+  #navbarScroll .logout-button {
+    margin-top: 2rem;
+    width: 100%;
+  }
+}

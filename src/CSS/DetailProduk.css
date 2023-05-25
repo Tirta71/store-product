@@ -47,13 +47,6 @@
   color: black;
 }
 
-.transisi-kanan {
-  opacity: 1;
-}
-.transisi-kanan-show {
-  opacity: 0;
-  transition: 1s;
-}
 @media (max-width: 768px) {
   .detail-product img {
     width: 100%;
@@ -81,6 +74,18 @@
     margin: 2rem 14px;
   }
   .button-detail {
+    width: 100%;
+  }
+  .kelompok {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .forNavbar {
     width: 100%;
   }
 }
