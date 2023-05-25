@@ -24,21 +24,27 @@ const Login = () => {
         if (user) {
           localStorage.setItem("isLoggedIn", "true");
 
-          setUsername("");
-          setPassword("");
-          setLoading(false);
-          toast.success("Berhasil Login");
           setTimeout(() => {
-            window.location.href = "/";
-          }, 2000);
+            setLoading(false);
+            toast.success("Berhasil Login");
+            setUsername("");
+            setPassword("");
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 2000);
+          }, 2000); // Delay for 2 seconds
         } else {
           setError("Invalid username or password");
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000); // Delay for 2 seconds
         }
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000); // Delay for 2 seconds
       });
   };
 
