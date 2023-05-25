@@ -47,6 +47,19 @@
   color: black;
 }
 
+.notShow {
+  opacity: 0;
+  transform: translateY(-200px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.showTransisi {
+  opacity: 1;
+  transform: translateY(0);
+}
+button:hover {
+  background-color: silver;
+}
 @media (max-width: 992px) {
   .detail-product img {
     width: 100%;
