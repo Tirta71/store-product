@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import "../login/login.css";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
@@ -10,11 +10,10 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (password !== confirmPassword) {
       toast.error("Password Tidak Cocok");
       return;
@@ -32,22 +31,43 @@ const Register = () => {
       return;
     }
 
-    const newUser = { username, password, cartItems: [] };
+    setIsLoading(true);
 
-    axios
-      .post("https://646f8bf209ff19b120877364.mockapi.io/login/login", newUser)
-      .then((response) => {
-        navigate("/login");
-        setIsLoading(false);
+    try {
+      const response = await axios.get(
+        "https://646f8bf209ff19b120877364.mockapi.io/login/login"
+      );
 
-        setTimeout(function () {
-          toast.success("Register Berhasil");
-        }, 1000);
-      })
-      .catch((error) => {
-        console.error(error);
+      const users = response.data;
+
+      const isUsernameTaken = users.some((user) => user.username === username);
+
+      if (isUsernameTaken) {
+        toast.error("Username sudah digunakan");
+        setUsername("");
+        setPassword("");
+        setConfirmPassword("");
         setIsLoading(false);
-      });
+        return;
+      }
+
+      const newUser = { username, password, cartItems: [] };
+
+      await axios.post(
+        "https://646f8bf209ff19b120877364.mockapi.io/login/login",
+        newUser
+      );
+
+      navigate("/login");
+      setIsLoading(false);
+
+      setTimeout(function () {
+        toast.success("Register Berhasil");
+      }, 500);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -96,30 +116,26 @@ const Register = () => {
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
             onKeyPress={handleKeyPress}
           />
         </div>
-        <button
+
+        <Button
           className="register-button"
           onClick={handleRegister}
           disabled={isLoading}
         >
           {isLoading ? (
-            <>
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-              <span className="sr-only">Loading...</span>
-            </>
+            <Spinner animation="border" size="sm" role="status">
+              <span className="sr-only"></span>
+            </Spinner>
           ) : (
             "Register"
           )}
-        </button>
+        </Button>
 
         <span>
           Sudah Punya Akun? <a href="/login">Login</a>

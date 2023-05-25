@@ -23,7 +23,7 @@ const Login = () => {
 
         if (user) {
           localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("username", username);
+
           setUsername("");
           setPassword("");
           setLoading(false);
