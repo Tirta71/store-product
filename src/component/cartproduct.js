@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { NavDropdown } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 import "../CSS/cart.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const CartDropdown = () => {
   const navigate = useNavigate();
@@ -12,6 +15,8 @@ const CartDropdown = () => {
   const [stokProduk, setStokProduk] = useState(
     JSON.parse(localStorage.getItem("stokProduk")) || {}
   );
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleCheckoutAll = () => {
     console.log("Checkout All");
@@ -81,60 +86,75 @@ const CartDropdown = () => {
 
   return (
     <NavDropdown
-      title={`Cart (${getTotalItems()})`}
+      title={
+        <>
+          <FontAwesomeIcon icon={faShoppingCart} />
+          {`  (${getTotalItems()})`}
+        </>
+      }
       id="navbarScrollingDropdown"
       className="Test"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
     >
-      {cartItems && cartItems.length > 0 && <h1>Keranjang Belanja</h1>}
-
       <div className="cart-container">
-        {cartItems && cartItems.length === 0 ? (
-          <p>Cart is empty</p>
-        ) : (
-          <ul>
-            {cartItems && Array.isArray(cartItems) ? (
-              cartItems.map((item, index) => (
-                <li key={index}>
-                  <div className="CartProduk">
-                    <img src={item.image} alt={item.title} />
-                    <Link to={`/product/${item.id}`}>
-                      <span className="Harga-Link">
-                        <a href={`#${item.id}`}>{item.title}</a>
-                        <span className="Harga">
-                          ${Math.round(item.price * item.jumlah)}
-                        </span>
-                      </span>
-                    </Link>
-                    <div className="buttonDeck">
-                      <button
-                        className="Remove"
-                        onClick={() => handleRemove(index)}
-                      >
-                        -
-                      </button>
-                      <span className="text-center">{item.jumlah}</span>
-                      <button
-                        className="Add"
-                        onClick={() => handleAddToCart(index)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))
+        <CSSTransition
+          in={isOpen}
+          timeout={300}
+          classNames="cart-dropdown"
+          unmountOnExit
+        >
+          <div>
+            {cartItems && cartItems.length > 0 && <h1>Keranjang Belanja</h1>}
+            {cartItems && cartItems.length === 0 ? (
+              <p>Cart is empty</p>
             ) : (
-              <li>
-                <p>Invalid cart items</p>
-              </li>
+              <ul>
+                {cartItems && Array.isArray(cartItems) ? (
+                  cartItems.map((item, index) => (
+                    <li key={index}>
+                      <div className="CartProduk">
+                        <img src={item.image} alt={item.title} />
+                        <Link to={`/product/${item.id}`}>
+                          <span className="Harga-Link">
+                            <a href={`#${item.id}`}>{item.title}</a>
+                            <span className="Harga">
+                              ${Math.round(item.price * item.jumlah)}
+                            </span>
+                          </span>
+                        </Link>
+                        <div className="buttonDeck">
+                          <button
+                            className="Remove"
+                            onClick={() => handleRemove(index)}
+                          >
+                            -
+                          </button>
+                          <span className="text-center">{item.jumlah}</span>
+                          <button
+                            className="Add"
+                            onClick={() => handleAddToCart(index)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <li>
+                    <p>Invalid cart items</p>
+                  </li>
+                )}
+              </ul>
             )}
-          </ul>
-        )}
-        {cartItems && cartItems.length > 0 && (
-          <button className="CheckoutAll" onClick={handleCheckoutAll}>
-            Checkout All
-          </button>
-        )}
+            {cartItems && cartItems.length > 0 && (
+              <button className="CheckoutAll" onClick={handleCheckoutAll}>
+                Checkout All
+              </button>
+            )}
+          </div>
+        </CSSTransition>
       </div>
     </NavDropdown>
   );

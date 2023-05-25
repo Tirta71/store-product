@@ -1,4 +1,29 @@
-/* cart.css */
+/* Transisi untuk dropdown menu */
+.cart-dropdown-wrapper {
+  position: relative;
+}
+
+.cart-dropdown-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.cart-dropdown-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.cart-dropdown-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cart-dropdown-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
 
 .cart-container {
   width: 350px;
@@ -65,7 +90,7 @@
   color: blue;
 }
 
-.CheckoutAll {
+.cart-container .CheckoutAll {
   display: block;
   margin-top: 10px;
   background-color: black;
@@ -97,6 +122,9 @@ ul li {
   gap: 1rem;
 }
 
+#navbarScrollingDropdown {
+  padding-top: 4.5px;
+}
 .Test {
   transform: translate(-100px, 0);
   z-index: 999;
@@ -108,5 +136,19 @@ ul li {
   }
   .cart-container {
     width: 100%;
+  }
+  .CartProduk {
+    flex-direction: column;
+    margin-left: 5rem;
+  }
+
+  #navbarScrollingDropdown {
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .CartProduk {
+    margin-left: 1rem;
   }
 }

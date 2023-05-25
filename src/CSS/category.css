@@ -38,10 +38,7 @@
   padding-top: 1.5rem;
 }
 
-@media (max-width: 768px) {
-  .jarak {
-    display: none;
-  }
+@media (max-width: 992px) {
   .search-cart {
     flex-wrap: wrap;
     flex-direction: column;
@@ -53,5 +50,10 @@
   .search-cart .cart-input {
     padding-left: 12px;
     width: 95%;
+  }
+}
+@media (max-width: 768px) {
+  .jarak {
+    display: none;
   }
 }
